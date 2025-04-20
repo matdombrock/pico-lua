@@ -10,27 +10,24 @@
 #include "../lib/lua/lua-5.4.6/include/lauxlib.h"
 #include "../lib/lua/lua-5.4.6/include/lualib.h"
 
+// Load our script that was generated with the `convert_lua.sh` script
+#include "script.lua.h"
+
 #ifndef LED_DELAY_MS
 #define LED_DELAY_MS 250
 #endif
 
-#ifndef PICO_DEFAULT_LED_PIN
-#warning blink_simple example requires a board with a regular LED
-#endif
+#define LED_PIN 0
 
 // Initialize the GPIO for the LED
 void pico_led_init(void) {
-#ifdef PICO_DEFAULT_LED_PIN
-    gpio_init(PICO_DEFAULT_LED_PIN);
-    gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
-#endif
+    gpio_init(LED_PIN);
+    gpio_set_dir(LED_PIN, GPIO_OUT);
 }
 
 // Turn the LED on or off
 void pico_set_led(bool led_on) {
-#if defined(PICO_DEFAULT_LED_PIN)
-    gpio_put(PICO_DEFAULT_LED_PIN, led_on);
-#endif
+    gpio_put(LED_PIN, led_on);
 }
 
 // Lua function to control the LED
@@ -66,20 +63,6 @@ lua_State *init_lua(void) {
     return L;
 }
 
-// Simple Lua script to blink the LED
-const char *blink_script = 
-    "print('Lua running on Pico RP2350!')\n"
-    "for i = 1, 10 do\n"
-    "  print('this is LUA!')"
-    "  print('LED on, cycle ' .. i)\n"
-    "  pico.led(true)\n"
-    "  pico.sleep_ms(500)\n"
-    "  print('LED off, cycle ' .. i)\n"
-    "  pico.led(false)\n"
-    "  pico.sleep_ms(500)\n"
-    "end\n"
-    "print('Script completed!')\n";
-
 int main() {
     // Initialize standard I/O
     stdio_init_all();
@@ -99,10 +82,10 @@ int main() {
         return 1;
     }
     
-    printf("Executing Lua script:\n%s\n", blink_script);
+    printf("Executing Lua script:\n%s\n", lua_script);
     
     // Run the Lua script
-    int result = luaL_dostring(L, blink_script);
+    int result = luaL_dostring(L, lua_script);
     if (result) {
         printf("Lua error: %s\n", lua_tostring(L, -1));
     }

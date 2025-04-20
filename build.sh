@@ -1,5 +1,6 @@
 #!/bin/bash
 source env.src
+./convert_lua.sh script.lua
 cd ./lua_test
 mkdir build
 rm -rf build/*

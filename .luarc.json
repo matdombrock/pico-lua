@@ -1,0 +1,40 @@
+{
+  "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
+  "Lua": {
+    "runtime": {
+      "version": "Lua 5.4",
+      "path": [
+        "?.lua",
+        "?/init.lua"
+      ]
+    },
+    "workspace": {
+      "library": [],
+      "ignoreDir": [
+        ".git",
+        "tests",
+        "build"
+      ],
+      "maxPreload": 1000,
+      "preloadFileSize": 500
+    },
+    "diagnostics": {
+      "enable": true,
+      "globals": [
+        "pico"
+      ]
+    },
+    "completion": {
+      "callSnippet": "Both"
+    },
+    "hint": {
+      "enable": true
+    },
+    "format": {
+      "enable": true
+    },
+    "telemetry": {
+      "enable": false
+    }
+  }
+}

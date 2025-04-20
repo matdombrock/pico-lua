@@ -1,7 +1,7 @@
 # PICO LUA
 Run lua on a pico (2)
 
-# Use
+## Use
 ```bash
 # Install deps (Fedora only)
 # If you have built pico software before, you can likely skip this step
@@ -27,3 +27,13 @@ Run lua on a pico (2)
 ./flash.sh lua_test/build/test.uf2 # Or however you normally flash
 ```
 ```
+
+## Scripting
+Edit the script at `./script.lua`. 
+
+This will be automatically built and included into the compiled C code. (see `convert_lua.sh`)
+
+Right now this simple API has 2 methods:
+`pico.led(enabled)` - Enable or disable the led
+`pico.sleep_ms` - Sleep for a number of milliseconds
+
