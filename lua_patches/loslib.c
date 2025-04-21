@@ -18,9 +18,7 @@
 
 
 #include <errno.h>
-#include <locale.h>
 #include <stdlib.h>
-#include <string.h>
 #include <time.h>
 
 #include "lua.h"
@@ -42,17 +40,6 @@ static int os_clock (lua_State *L) {
   return 1;
 }
 
-// we have no env variables on RP2350
-static int os_getenv (lua_State *L) {
-  lua_pushnil(L);
-  return 1;
-}
-
-// Always return C locale on RP2350
-static int os_setlocale (lua_State *L) {
-  lua_pushstring(L, "C");
-  return 1;
-}
 
 // On RP2350, we don't actually exit
 static int os_exit (lua_State *L) {
@@ -66,8 +53,6 @@ static const luaL_Reg syslib[] = {
   {"clock",     os_clock},
   {"time",      os_time},
   {"exit",      os_exit},
-  {"getenv",    os_getenv},
-  {"setlocale", os_setlocale},
   {NULL, NULL}
 };
 

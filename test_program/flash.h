@@ -1,10 +1,9 @@
 #include "pico/stdlib.h"
 #include "hardware/flash.h"
 #include "hardware/sync.h"
-#include <stdio.h>
 
 // Define the size of the flash memory
-#define FLASH_SIZE_BYTES (2 * 1024 * 1024) // 2MB of flash memory
+#define FLASH_SIZE_BYTES (4 * 1024 * 1024) // 4MB of flash memory by default on pico2 dev boards
 
 // Define the start of the program in flash memory
 #define FLASH_BASE_ADDR XIP_BASE
@@ -21,10 +20,6 @@ size_t check_flash_storage(int mode) {
     // Calculate free flash memory
     size_t free_flash = total_flash - used_flash;
 
-    // Print flash storage information
-    // printf("Total flash storage: %u bytes\n", total_flash);
-    // printf("Used flash storage: %u bytes\n", used_flash);
-    // printf("Free flash storage: %u bytes\n", free_flash);
     switch (mode) {
       case 0:
         return total_flash;

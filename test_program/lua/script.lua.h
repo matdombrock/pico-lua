@@ -1,17 +1,16 @@
 const char *lua_script = "\
 print(\"Hello from Lua\")\n\
 \n\
-local flash_size, flash_used, flash_free = pico.flash_info()\n\
+local flash_used, flash_free, flash_total = pico.flash_info()\n\
 \n\
-print(\"Flash size: \" .. flash_size .. \" bytes\")\n\
 print(\"Flash used: \" .. flash_used .. \" bytes\")\n\
 print(\"Flash free: \" .. flash_free .. \" bytes\")\n\
+print(\"Flash size: \" .. flash_total .. \" bytes\")\n\
 \n\
 -- print the system uptime\n\
+-- This is calling to a patched lua function so its behavior different from the original\n\
 local time = os.time()\n\
 print(\"System time: \" .. time .. \" seconds since boot\")\n\
-local clock = os.clock()\n\
-print(\"This is \" .. clock .. \" clock cycles\")\n\
 \n\
 print(\"Waiting 2 seconds...\")\n\
 pico.sleep_ms(2000)\n\
@@ -68,8 +67,6 @@ print(\"Lua completed!\")\n\
 \n\
 time = os.clock()\n\
 print(\"System time: \" .. time .. \" seconds since boot\")\n\
-clock = os.clock()\n\
-print(\"This is \" .. clock .. \" clock cycles\")\n\
 \n\
 print(\"Waiting 1 second...\")\n\
 pico.sleep_ms(1000)\n\

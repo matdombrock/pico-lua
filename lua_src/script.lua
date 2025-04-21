@@ -1,10 +1,10 @@
 print("Hello from Lua")
 
-local flash_size, flash_used, flash_free = pico.flash_info()
+local flash_used, flash_free, flash_total = pico.flash_info()
 
-print("Flash size: " .. flash_size .. " bytes")
 print("Flash used: " .. flash_used .. " bytes")
 print("Flash free: " .. flash_free .. " bytes")
+print("Flash size: " .. flash_total .. " bytes")
 
 -- print the system uptime
 -- This is calling to a patched lua function so its behavior different from the original
