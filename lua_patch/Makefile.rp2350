@@ -1,0 +1,30 @@
+# Makefile for building Lua for RP2350
+# Adapted from the original Lua Makefile
+
+CC=arm-none-eabi-gcc
+AR=arm-none-eabi-ar
+RANLIB=arm-none-eabi-ranlib
+LD=arm-none-eabi-ld
+SIZE=arm-none-eabi-size
+STRIP=arm-none-eabi-strip
+
+CFLAGS= -DLUA_USE_LONGJMP -DLUA_32BITS -Os -mcpu=cortex-m0plus -mthumb -ffunction-sections -fdata-sections -Wall -Wextra -nostdlib -ffreestanding -DLUA_COMPAT_5_3
+LDFLAGS= -Wl,--gc-sections
+
+CORE_O=lapi.o lcode.o lctype.o ldebug.o ldo.o ldump.o lfunc.o lgc.o llex.o lmem.o lobject.o lopcodes.o lparser.o lstate.o lstring.o ltable.o ltm.o lundump.o lvm.o lzio.o
+LIB_O=lauxlib.o lbaselib.o lcorolib.o ldblib.o liolib.o lmathlib.o loadlib.o loslib.o lstrlib.o ltablib.o lutf8lib.o linit.o
+
+ALL_O= $(CORE_O) $(LIB_O)
+ALL_A= liblua.a
+
+all: $(ALL_A)
+
+$(ALL_A): $(ALL_O)
+	$(AR) rcu $@ $(ALL_O)
+	$(RANLIB) $@
+
+clean:
+	rm -f $(ALL_A) $(ALL_O)
+
+.c.o:
+	$(CC) $(CFLAGS) -c $<

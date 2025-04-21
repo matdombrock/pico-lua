@@ -8,10 +8,7 @@ local function blink_loop()
 		pico.sleep_ms(i)
 	end
 end
-for i = 1, 2 do
-	blink_loop()
-end
--- blink the Fibonacci sequence
+
 local function fibonacci(n)
 	if n <= 1 then
 		return n
@@ -30,9 +27,6 @@ local function blink_loop_fib()
 		pico.sleep_ms(fib * 10)
 	end
 end
-for i = 1, 3 do
-	blink_loop_fib()
-end
 
 local function print_sin()
 	for i = 0, 100 do
@@ -49,6 +43,13 @@ local function print_sin()
 		print(str)
 		pico.sleep_ms(10)
 	end
+end
+
+for i = 1, 2 do
+	blink_loop()
+end
+for i = 1, 3 do
+	blink_loop_fib()
 end
 for i = 1, 8 do
 	print_sin()
