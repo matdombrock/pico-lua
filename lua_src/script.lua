@@ -1,4 +1,13 @@
 print("Hello from Lua")
+
+local flash_size, flash_used, flash_free = pico.flash_info()
+
+print("Flash size: " .. flash_size .. " bytes")
+print("Flash used: " .. flash_used .. " bytes")
+print("Flash free: " .. flash_free .. " bytes")
+
+pico.sleep_ms(500)
+
 local function blink_loop()
 	for i = 1, 100 do
 		print(i)
@@ -9,17 +18,9 @@ local function blink_loop()
 	end
 end
 
-local function fibonacci(n)
-	if n <= 1 then
-		return n
-	else
-		return fibonacci(n - 1) + fibonacci(n - 2)
-	end
-end
-
 local function blink_loop_fib()
 	for i = 1, 10 do
-		local fib = fibonacci(i)
+		local fib = tools.fibonacci(i)
 		print(fib)
 		pico.led(true)
 		pico.sleep_ms(fib * 10)
@@ -31,7 +32,7 @@ end
 local function print_sin()
 	for i = 0, 100 do
 		local pos = (i / 100) * 3.14 * 2
-		local val = 9 + math.floor(math.sin(pos) * 8)
+		local val = 1 + math.floor(tools.sin_norm(pos) * 8)
 		local str = ""
 		for j = 1, val do
 			local c = " "

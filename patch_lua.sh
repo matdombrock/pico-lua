@@ -59,12 +59,12 @@ echo "Creating modified loslib.c for RP2350..."
 cp src/loslib.c src/loslib.c.orig
 
 # Create the modified file
-cp ${top_lvl}/lua_patch/loslib.c src/loslib.c
+cp ${top_lvl}/lua_patches/loslib.c src/loslib.c
 
 # Modify the makefile to cross-compile for RP2350
 echo "Creating custom makefile for RP2350 cross-compilation..."
 # cat > Makefile.rp2350 << EOF
-cp ${top_lvl}/lua_patch/Makefile.rp2350 Makefile.rp2350
+cp ${top_lvl}/lua_patches/Makefile.rp2350 Makefile.rp2350
 
 # Build Lua for RP2350
 echo "Building Lua for RP2350..."
@@ -87,4 +87,3 @@ echo "Static library is available at: ./lib/lua/lua-5.4.6/liblua.a"
 echo "Headers are available at: ./lib/lua/lua-5.4.6/include/"
 
 cd ../../..
-

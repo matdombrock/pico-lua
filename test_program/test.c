@@ -4,14 +4,23 @@
 
 #include "pico/stdlib.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 // Include Lua headers
 #include "../lib/lua/lua-5.4.6/include/lua.h"
 #include "../lib/lua/lua-5.4.6/include/lauxlib.h"
 #include "../lib/lua/lua-5.4.6/include/lualib.h"
 
-// Load our script that was generated with the `convert_lua.sh` script
-#include "script.lua.h"
+// A tool for reading info about flash storage
+#include "flash.h"
+
+// Local the custom lua library file
+#include "lua/tools.lua.h"
+// Load our sscanfript that was generated with the `convert_lua.sh` script
+#include "lua/script.lua.h"
+// Load the hander
+#include "lua/handler.lua.h"
 
 #ifndef LED_DELAY_MS
 #define LED_DELAY_MS 250
@@ -44,10 +53,21 @@ static int lua_sleep_ms(lua_State *L) {
     return 0;
 }
 
+static int lua_check_flash(lua_State *L) {
+    size_t storage = check_flash_storage(0);
+    lua_pushinteger(L, storage);
+    size_t used = check_flash_storage(1);
+    lua_pushinteger(L, used);
+    size_t free = check_flash_storage(2);
+    lua_pushinteger(L, free);
+    return 3;
+}
+
 // Register our Pico-specific functions to Lua
 static const struct luaL_Reg pico_lib[] = {
     {"led", lua_set_led},
     {"sleep_ms", lua_sleep_ms},
+    {"flash_info", lua_check_flash},
     {NULL, NULL}
 };
 
@@ -82,14 +102,35 @@ int main() {
         return 1;
     }
     
-    printf("Executing Lua script:\n%s\n", lua_script);
+
+    // Combine the helper lib and the lua script
+    // char *comb_script = malloc(strlen(lua_tools) + strlen(lua_script) + strlen(lua_handler) + 1);
+    // strcpy(comb_script, lua_tools);
+    // strcat(comb_script, "\n");
+    // strcat(comb_script, lua_script);  
+    // strcat(comb_script, "\n");
+    // // Append the lua_hander script
+    // strcat(comb_script, lua_handler);
+    // // Run the Lua script
+    // printf("Executing Lua script:\n%s\n=== end of script ===\n", comb_script);
+    // int result = luaL_dostring(L, comb_script);
+    // free(comb_script); 
+    // if (result) {
+    //     printf("Lua user script error: %s\n", lua_tostring(L, -1));
+    // }
     
-    // Run the Lua script
+    int result_tools = luaL_dostring(L, lua_tools);
+    if (result_tools) {
+        printf("Lua tools error: %s\n", lua_tostring(L, -1));
+    }
     int result = luaL_dostring(L, lua_script);
     if (result) {
-        printf("Lua error: %s\n", lua_tostring(L, -1));
+        printf("Lua user script error: %s\n", lua_tostring(L, -1));
     }
-    
+    int result_handler = luaL_dostring(L, lua_handler);
+    if (result_handler) {
+      printf("Lua handler error: %s\n", lua_tostring(L, -1));
+    }
     // Clean up Lua
     lua_close(L);
     

@@ -21,7 +21,9 @@
     "diagnostics": {
       "enable": true,
       "globals": [
-        "pico"
+        "pico",
+        "tools",
+        "User_main_loop"
       ]
     },
     "completion": {
