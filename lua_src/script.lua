@@ -6,7 +6,13 @@ print("Flash size: " .. flash_size .. " bytes")
 print("Flash used: " .. flash_used .. " bytes")
 print("Flash free: " .. flash_free .. " bytes")
 
-pico.sleep_ms(500)
+-- print the system uptime
+-- This is calling to a patched lua function so its behavior different from the original
+local time = os.time()
+print("System time: " .. time .. " seconds since boot")
+
+print("Waiting 2 seconds...")
+pico.sleep_ms(2000)
 
 local function blink_loop()
 	for i = 1, 100 do
@@ -57,4 +63,11 @@ for i = 1, 8 do
 end
 
 print("Lua completed!")
+
+time = os.clock()
+print("System time: " .. time .. " seconds since boot")
+
+print("Waiting 1 second...")
+pico.sleep_ms(1000)
+
 print("Process will exit to C code now...")

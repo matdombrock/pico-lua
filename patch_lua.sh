@@ -4,7 +4,7 @@ set -e
 # Script to download and build Lua for RP2350 (Pico 2)
 # The Lua source and build files will be in the ./lib/lua directory
 
-top_lvl = ../../..
+top_lvl=../../..
 
 # Create lib/lua directory if it doesn't exist
 mkdir -p lib/lua

@@ -7,7 +7,14 @@ print(\"Flash size: \" .. flash_size .. \" bytes\")\n\
 print(\"Flash used: \" .. flash_used .. \" bytes\")\n\
 print(\"Flash free: \" .. flash_free .. \" bytes\")\n\
 \n\
-pico.sleep_ms(500)\n\
+-- print the system uptime\n\
+local time = os.time()\n\
+print(\"System time: \" .. time .. \" seconds since boot\")\n\
+local clock = os.clock()\n\
+print(\"This is \" .. clock .. \" clock cycles\")\n\
+\n\
+print(\"Waiting 2 seconds...\")\n\
+pico.sleep_ms(2000)\n\
 \n\
 local function blink_loop()\n\
 	for i = 1, 100 do\n\
@@ -58,5 +65,14 @@ for i = 1, 8 do\n\
 end\n\
 \n\
 print(\"Lua completed!\")\n\
+\n\
+time = os.clock()\n\
+print(\"System time: \" .. time .. \" seconds since boot\")\n\
+clock = os.clock()\n\
+print(\"This is \" .. clock .. \" clock cycles\")\n\
+\n\
+print(\"Waiting 1 second...\")\n\
+pico.sleep_ms(1000)\n\
+\n\
 print(\"Process will exit to C code now...\")\n\
 ";
