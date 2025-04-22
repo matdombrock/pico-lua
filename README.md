@@ -1,6 +1,10 @@
 # PICO LUA
 
-Run lua on a pico (2)
+Run a Lua interpreter on an RP2350 Pico board.
+
+This is a way to run a Lua *interpreter* not a way to write entire embedded applications in Lua (see [MicroLua](https://github.com/MicroLua/MicroLua) for that).
+
+The core application logic is still written in C / C++.
 
 ## How this works
 
