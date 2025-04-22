@@ -30,7 +30,7 @@ See `patch_lua.sh` and `./lua_patches` for more info.
 # This is NOT needed if you have it installed and in your path)
 ./get_picotool.sh
 
-# Build the example code in `lua_test`
+# Build the example code 
 ./build.sh
 
 # Flash the example code
@@ -39,7 +39,7 @@ See `patch_lua.sh` and `./lua_patches` for more info.
 
 ## Scripting
 
-Edit the script at `./lua_src-usr/script.lua`.
+Edit the script at `./lua_src_usr/script.lua`.
 
 This will be automatically build and included into the compiled C code. (see `convert_lua.sh`)
 
