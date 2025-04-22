@@ -18,7 +18,7 @@ set(LUA_LIBRARY_DIR "${LUA_DIR}")
 
 # Add the executable
 add_executable(test
-        test.c
+        test.cpp
 )
 
 # Include directories for lua headers

@@ -7,9 +7,11 @@
 #include <stdlib.h>
 
 // Include Lua headers
-#include "../lib/lua/lua-5.4.6/include/lua.h"
-#include "../lib/lua/lua-5.4.6/include/lauxlib.h"
-#include "../lib/lua/lua-5.4.6/include/lualib.h"
+// #include "../lib/lua/lua-5.4.6/include/lua.h"
+// #include "../lib/lua/lua-5.4.6/include/lauxlib.h"
+// #include "../lib/lua/lua-5.4.6/include/lualib.h"
+
+#include "../lib/lua/lua-5.4.6/include/lua.hpp"
 
 // A tool for reading info about flash storage
 #include "flash.h"

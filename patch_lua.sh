@@ -60,6 +60,7 @@ cp src/loslib.c src/loslib.c.orig
 
 # Create the modified file
 cp ${top_lvl}/lua_patches/loslib.c src/loslib.c
+cp ${top_lvl}/lua_patches/luaconf.h src/luaconf.h
 
 # Modify the makefile to cross-compile for RP2350
 echo "Creating custom makefile for RP2350 cross-compilation..."
@@ -77,6 +78,7 @@ echo "Creating headers directory..."
 cd ..
 mkdir -p include
 find src -name "*.h" -exec cp {} include/ \;
+find src -name "*.hpp" -exec cp {} include/ \;
 
 # Copy the compiled library to the lib directory
 echo "Copying compiled library..."
