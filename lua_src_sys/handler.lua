@@ -1,4 +1,6 @@
--- This is an attempt at scheduling a main loop using coroutines but its not working yet
+--
+-- Handles running the user's lua script and abstrcting some asyc styff
+--
 
 local function noop()
 	print("no loop")

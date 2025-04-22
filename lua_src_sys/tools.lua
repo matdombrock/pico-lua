@@ -1,4 +1,6 @@
+--
 -- Define a custom library of helper functions that is automatically made available to the main lua script
+--
 tools = {}
 -- Return a value at the nth position of the fibonacci sequence
 tools.fibonacci = function(n)

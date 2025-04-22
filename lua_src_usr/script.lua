@@ -1,3 +1,7 @@
+--
+-- This is an example of an end user script
+--
+
 local function blink_loop()
 	for i = 1, 100 do
 		print(i)
@@ -54,6 +58,8 @@ end
 
 local function startup()
 	print("Hello from Lua!")
+	local test = app.test() -- Call the custom app function
+	print("test " .. test)
 	local flash_used, flash_free, flash_total = pico.flash_info()
 	print("Flash used: " .. flash_used .. " bytes")
 	print("Flash free: " .. flash_free .. " bytes")

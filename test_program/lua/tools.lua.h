@@ -1,5 +1,7 @@
 const char *lua_tools = "\
+--\n\
 -- Define a custom library of helper functions that is automatically made available to the main lua script\n\
+--\n\
 tools = {}\n\
 -- Return a value at the nth position of the fibonacci sequence\n\
 tools.fibonacci = function(n)\n\

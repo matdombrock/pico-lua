@@ -1,6 +1,10 @@
 # PICO LUA
 
-Run lua on a pico (2)
+Run a Lua interpreter on an RP2350 Pico board.
+
+This is a way to run a Lua *interpreter* not a way to write entire embedded applications in Lua (see [MicroLua](https://github.com/MicroLua/MicroLua) for that).
+
+The core application logic is still written in C / C++.
 
 ## How this works
 
@@ -8,7 +12,7 @@ This works by downloading the Lua source code and modifying it to work with the 
 
 The main file being replaced is loslib.c which is the Lua OS library.
 
-See `patch_lua.sh` and `lua_patch` for more info.
+See `patch_lua.sh` and `./lua_patches` for more info.
 
 ## Use
 
@@ -30,7 +34,7 @@ See `patch_lua.sh` and `lua_patch` for more info.
 # This is NOT needed if you have it installed and in your path)
 ./get_picotool.sh
 
-# Build the example code in `lua_test`
+# Build the example code 
 ./build.sh
 
 # Flash the example code
@@ -39,10 +43,8 @@ See `patch_lua.sh` and `lua_patch` for more info.
 
 ## Scripting
 
-Edit the script at `./script.lua`.
+Edit the script at `./lua_src_usr/script.lua`.
 
 This will be automatically build and included into the compiled C code. (see `convert_lua.sh`)
 
-Right now this simple API has 2 methods:
-`pico.led(enabled)` - Enable or disable the led
-`pico.sleep_ms` - Sleep for a number of milliseconds
+See the existing script for examples of Lua API usage.
