@@ -14,9 +14,17 @@ tools.sin_norm = function(x)\n\
 	return 1 + math.sin(x) * 0.5\n\
 end\n\
 \n\
-tools.wait = function(seconds)\n\
-	local start = os.time()\n\
-	while os.time() - start < seconds do\n\
+tools.wait = function(ms)\n\
+	ms = ms * 1000 -- clock is in microseconds\n\
+	local start = pico.clock()\n\
+	while pico.clock() - start < ms do\n\
+		coroutine.yield() -- Pauses the coroutine, allowing other coroutines or the main program to run.\n\
+	end\n\
+end\n\
+\n\
+tools.micro_wait = function(ms)\n\
+	local start = pico.clock()\n\
+	while pico.clock() - start < ms do\n\
 		coroutine.yield() -- Pauses the coroutine, allowing other coroutines or the main program to run.\n\
 	end\n\
 end\n\

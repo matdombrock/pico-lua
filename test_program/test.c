@@ -5,7 +5,6 @@
 #include "pico/stdlib.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 // Include Lua headers
 #include "../lib/lua/lua-5.4.6/include/lua.h"
@@ -65,12 +64,20 @@ static int lua_check_flash(lua_State *L) {
   return 3;
 }
 
+// Get the current time in microseconds at the start
+static int lua_clock(lua_State *L) {
+  uint64_t time = time_us_64();
+  lua_pushinteger(L, time);
+  return 1;
+}
+
 
 // Register our Pico-specific functions to Lua
 static const struct luaL_Reg pico_lib[] = {
   {"led", lua_set_led},
   {"sleep_ms", lua_sleep_ms},
   {"flash_info", lua_check_flash},
+  {"clock", lua_clock},
   {NULL, NULL}
 };
 
@@ -95,7 +102,6 @@ int main() {
   
   // Ensure we can see the output
   sleep_ms(2000);
-  
   printf("\n\n=== Starting Lua on Pico RP2350 ===\n\n");
   
   // Initialize Lua
@@ -106,34 +112,25 @@ int main() {
   }
   
 
-  // Combine the helper lib and the lua script
-  // char *comb_script = malloc(strlen(lua_tools) + strlen(lua_script) + strlen(lua_handler) + 1);
-  // strcpy(comb_script, lua_tools);
-  // strcat(comb_script, "\n");
-  // strcat(comb_script, lua_script);  
-  // strcat(comb_script, "\n");
-  // // Append the lua_hander script
-  // strcat(comb_script, lua_handler);
-  // // Run the Lua script
-  // printf("Executing Lua script:\n%s\n=== end of script ===\n", comb_script);
-  // int result = luaL_dostring(L, comb_script);
-  // free(comb_script); 
-  // if (result) {
-  //     printf("Lua user script error: %s\n", lua_tostring(L, -1));
-  // }
-  
   int result_tools = luaL_dostring(L, lua_tools);
   if (result_tools) {
-    printf("Lua tools error: %s\n", lua_tostring(L, -1));
+      luaL_traceback(L, L, lua_tostring(L, -1), 1);
+      printf("Lua tools error: %s\n", lua_tostring(L, -1));
+      lua_pop(L, 1); // Remove traceback from stack
   }
-  int result = luaL_dostring(L, lua_script);
-  if (result) {
-    printf("Lua user script error: %s\n", lua_tostring(L, -1));
+  int result_script = luaL_dostring(L, lua_script);
+  if (result_script) {
+      luaL_traceback(L, L, lua_tostring(L, -1), 1);
+      printf("Lua user script error: %s\n", lua_tostring(L, -1));
+      lua_pop(L, 1); // Remove traceback from stack
   }
   int result_handler = luaL_dostring(L, lua_handler);
   if (result_handler) {
-    printf("Lua handler error: %s\n", lua_tostring(L, -1));
+      luaL_traceback(L, L, lua_tostring(L, -1), 1);
+      printf("Lua handler error: %s\n", lua_tostring(L, -1));
+      lua_pop(L, 1); // Remove traceback from stack
   }
+
   // Clean up Lua
   lua_close(L);
   
