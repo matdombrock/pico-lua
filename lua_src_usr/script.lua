@@ -58,7 +58,7 @@ end
 
 local function startup()
 	print("Hello from Lua!")
-	local test = app.test() -- Call the custom app function
+	local test = app.set_state(42069) -- Call the custom app function
 	print("test " .. test)
 	local flash_used, flash_free, flash_total = pico.flash_info()
 	print("Flash used: " .. flash_used .. " bytes")

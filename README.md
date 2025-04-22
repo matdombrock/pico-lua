@@ -47,4 +47,8 @@ Edit the script at `./lua_src_usr/script.lua`.
 
 This will be automatically build and included into the compiled C code. (see `convert_lua.sh`)
 
+The Lua code in `./lua_src_sys/tools.lua` will be provided to all user scripts under the `tools` object.
+
+The main `./lua_src_usr/script.lua` should define a `Main_loop(ticks)` function. This will be called periodically by the Lua code in `./lua_src_sys/handler.lua` and automatically supports async operations using Lua coroutines.
+
 See the existing script for examples of Lua API usage.
