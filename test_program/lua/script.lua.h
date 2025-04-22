@@ -2,9 +2,9 @@ const char *lua_script = "\
 local function blink_loop()\n\
 	for i = 1, 100 do\n\
 		print(i)\n\
-		pico.led(true)\n\
+		pico_led(true)\n\
 		tools.wait(i)\n\
-		pico.led(false)\n\
+		pico_led(false)\n\
 		tools.wait(i)\n\
 	end\n\
 end\n\
@@ -13,9 +13,9 @@ local function blink_loop_fib()\n\
 	for i = 1, 12 do\n\
 		local fib = tools.fibonacci(i)\n\
 		print(fib)\n\
-		pico.led(true)\n\
+		pico_led(true)\n\
 		tools.wait(fib * 10)\n\
-		pico.led(false)\n\
+		pico_led(false)\n\
 		tools.wait(fib * 10)\n\
 	end\n\
 end\n\
@@ -26,9 +26,9 @@ local function blink_pulse()\n\
 		local pos = (i / 500) * 6.283185307179586\n\
 		local sin = tools.sin_norm(pos)\n\
 		local delay = math.floor(sin * 10000)\n\
-		pico.led(true)\n\
+		pico_led(true)\n\
 		tools.micro_wait(1 + delay)\n\
-		pico.led(false)\n\
+		pico_led(false)\n\
 		tools.micro_wait(1 + delay)\n\
 	end\n\
 end\n\
@@ -47,7 +47,7 @@ local function print_sin()\n\
 			str = str .. c\n\
 		end\n\
 		print(str)\n\
-		pico.led(is_on)\n\
+		pico_led(is_on)\n\
 		is_on = not is_on\n\
 		tools.wait(50)\n\
 	end\n\
@@ -55,7 +55,7 @@ end\n\
 \n\
 local function startup()\n\
 	print(\"Hello from Lua!\")\n\
-	local flash_used, flash_free, flash_total = pico.flash_info()\n\
+	local flash_used, flash_free, flash_total = pico_flash_info()\n\
 	print(\"Flash used: \" .. flash_used .. \" bytes\")\n\
 	print(\"Flash free: \" .. flash_free .. \" bytes\")\n\
 	print(\"Flash size: \" .. flash_total .. \" bytes\")\n\
@@ -83,7 +83,7 @@ function Main_loop(tick)\n\
 	blink_loop()\n\
 	print(\"== Blink Loop  Fib ==\")\n\
 	blink_loop_fib()\n\
-	print(\"== Blink pcallulse ==\")\n\
+	print(\"== Blink pulse ==\")\n\
 	blink_pulse()\n\
 	print(\"== Sine Wave ==\")\n\
 	print_sin()\n\

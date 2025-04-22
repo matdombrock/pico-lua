@@ -16,6 +16,7 @@ set(LUA_DIR "${CMAKE_SOURCE_DIR}/../lib/lua/lua-5.4.6/")
 set(LUA_INCLUDE_DIR "${LUA_DIR}/include")
 set(LUA_LIBRARY_DIR "${LUA_DIR}")
 
+# add_definitions(-DLUA_32BITS)
 # Add the executable
 add_executable(test
         test.c

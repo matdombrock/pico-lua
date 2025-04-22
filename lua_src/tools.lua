@@ -14,16 +14,20 @@ tools.sin_norm = function(x)
 end
 
 tools.wait = function(ms)
-	ms = ms * 1000 -- clock is in microseconds
-	local start = pico.clock()
-	while pico.clock() - start < ms do
-		coroutine.yield() -- Pauses the coroutine, allowing other coroutines or the main program to run.
-	end
+	-- ms = ms * 1000 -- clock is in microseconds
+	pico_sleep_ms(1000) -- Sleep for the specified number of milliseconds
+	-- local start = pico_clock()
+	-- print("x    " .. start)
+	-- while pico_clock() - start < ms do
+	-- 	-- coroutine.yield() -- Pauses the coroutine, allowing other coroutines or the main program to run.
+	-- end
 end
 
 tools.micro_wait = function(ms)
-	local start = pico.clock()
-	while pico.clock() - start < ms do
-		coroutine.yield() -- Pauses the coroutine, allowing other coroutines or the main program to run.
-	end
+	pico_sleep_ms(1000) -- Sleep for the specified number of microseconds
+	-- local start = pico_clock()
+	-- print("y    " .. start)
+	-- while pico_clock() - start < ms do
+	-- coroutine.yield() -- Pauses the coroutine, allowing other coroutines or the main program to run.
+	-- end
 end
