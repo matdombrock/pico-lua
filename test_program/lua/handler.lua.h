@@ -1,5 +1,7 @@
 const char *lua_handler = "\
--- This is an attempt at scheduling a main loop using coroutines but its not working yet\n\
+--\n\
+-- Handles running the user's lua script and abstrcting some asyc styff\n\
+--\n\
 \n\
 local function noop()\n\
 	print(\"no loop\")\n\

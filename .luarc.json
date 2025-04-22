@@ -23,7 +23,8 @@
       "globals": [
         "pico",
         "tools",
-        "User_main_loop"
+        "app",
+        "Main_loop"
       ]
     },
     "completion": {

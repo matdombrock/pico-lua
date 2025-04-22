@@ -8,7 +8,7 @@ This works by downloading the Lua source code and modifying it to work with the 
 
 The main file being replaced is loslib.c which is the Lua OS library.
 
-See `patch_lua.sh` and `lua_patch` for more info.
+See `patch_lua.sh` and `./lua_patches` for more info.
 
 ## Use
 
@@ -39,10 +39,8 @@ See `patch_lua.sh` and `lua_patch` for more info.
 
 ## Scripting
 
-Edit the script at `./script.lua`.
+Edit the script at `./lua_src-usr/script.lua`.
 
 This will be automatically build and included into the compiled C code. (see `convert_lua.sh`)
 
-Right now this simple API has 2 methods:
-`pico.led(enabled)` - Enable or disable the led
-`pico.sleep_ms` - Sleep for a number of milliseconds
+See the existing script for examples of Lua API usage.
