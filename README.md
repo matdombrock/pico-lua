@@ -61,4 +61,6 @@ There are some example scripts in the `./lua_src_exp` directory.
 
 When `SERIAL_LOAD_MODE` is enabled the device will boot into load mode. The LED on GPIO 0 will light up to confirm this.
 
+End your script by sending a line containing only `{{{END}}}`.
+
 Once a script has been sent the LED will blink quickly a few times and then start running the Lua code.
