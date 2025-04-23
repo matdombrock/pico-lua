@@ -1,5 +1,5 @@
 #include "pico/stdlib.h"
-#include "picolua.h"
+#include "picolua/picolua.h"
 
 int my_state_val = 1;
 
@@ -24,13 +24,13 @@ int main() {
     {NULL, NULL}
   };
   // Init the lua binding system and run the lua scripts
-  picolua_init(app_lib); 
+  pl_init(app_lib); 
 
   // Continue with regular C code when done with the Lua
   while (true) {
-    pico_set_led(true);
+    pl_pico_set_led(true);
     sleep_ms(200);
-    pico_set_led(false);
+    pl_pico_set_led(false);
     sleep_ms(200);
   }
 }

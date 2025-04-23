@@ -1,4 +1,4 @@
-const char *lua_script = "\
+const char *pl_script_default = "\
 --\n\
 -- This is an example of an end user script\n\
 --\n\
@@ -59,7 +59,7 @@ end\n\
 \n\
 local function startup()\n\
 	print(\"Hello from Lua!\")\n\
-	local test = app.test() -- Call the custom app function\n\
+	local test = app.set_state(42069) -- Call the custom app function\n\
 	print(\"test \" .. test)\n\
 	local flash_used, flash_free, flash_total = pico.flash_info()\n\
 	print(\"Flash used: \" .. flash_used .. \" bytes\")\n\
@@ -89,7 +89,7 @@ function Main_loop(tick)\n\
 	blink_loop()\n\
 	print(\"== Blink Loop  Fib ==\")\n\
 	blink_loop_fib()\n\
-	print(\"== Blink pcallulse ==\")\n\
+	print(\"== Blink Pulse ==\")\n\
 	blink_pulse()\n\
 	print(\"== Sine Wave ==\")\n\
 	print_sin()\n\

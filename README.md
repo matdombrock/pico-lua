@@ -43,12 +43,22 @@ See `patch_lua.sh` and `./lua_patches` for more info.
 
 ## Scripting
 
-Edit the script at `./lua_src_usr/script.lua`.
+Edit the script at `./lua_src_usr/default.lua`.
 
-This will be automatically build and included into the compiled C code. (see `convert_lua.sh`)
+This will be automatically built and included into the compiled C code. (see `convert_lua.sh`)
 
 The Lua code in `./lua_src_sys/tools.lua` will be provided to all user scripts under the `tools` object.
 
 The main `./lua_src_usr/script.lua` should define a `Main_loop(ticks)` function. This will be called periodically by the Lua code in `./lua_src_sys/handler.lua` and automatically supports async operations using Lua coroutines.
 
 See the existing script for examples of Lua API usage.
+
+### Serial Load Mode
+
+Scripts can be loaded at runtime if `SERIAL_LOAD_MODE` is enabled. Use the `./send_serial.sh <script.lua>` script for this.
+
+There are some example scripts in the `./lua_src_exp` directory.
+
+When `SERIAL_LOAD-MODE` is enabled the device will boot into load mode. The LED on GPIO 0 will light up to confirm this.
+
+Once a script has been sent the LED will blink quickly a few times and then start running the Lua code.

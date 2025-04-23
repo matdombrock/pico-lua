@@ -14,7 +14,7 @@ fi
 echo "Converting $input_file to $output_file..."
 
 {
-  echo "const char *lua_$name = \"\\"
+  echo "const char *pl_script_$name = \"\\"
   while IFS= read -r line; do
     # Escape backslashes and double quotes in the Lua script
     escaped_line=$(echo "$line" | sed 's/\\/\\\\/g; s/"/\\"/g')

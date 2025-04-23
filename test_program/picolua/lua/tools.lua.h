@@ -1,4 +1,4 @@
-const char *lua_tools = "\
+const char *pl_script_tools = "\
 --\n\
 -- Define a custom library of helper functions that is automatically made available to the main lua script\n\
 --\n\

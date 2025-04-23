@@ -1,4 +1,4 @@
-const char *lua_handler = "\
+const char *pl_script_handler = "\
 --\n\
 -- Handles running the user's lua script and abstrcting some asyc styff\n\
 --\n\

@@ -1,8 +1,8 @@
 #!/bin/bash
 source env.src
-./convert_lua.sh tools ./lua_src_sys/tools.lua ./test_program/lua/tools.lua.h
-./convert_lua.sh script ./lua_src_usr/script.lua ./test_program/lua/script.lua.h
-./convert_lua.sh handler ./lua_src_sys/handler.lua ./test_program/lua/handler.lua.h
+./convert_lua.sh tools ./lua_src_sys/tools.lua ./test_program/picolua/lua/tools.lua.h
+./convert_lua.sh default ./lua_src_usr/default.lua ./test_program/picolua/lua/default.lua.h
+./convert_lua.sh handler ./lua_src_sys/handler.lua ./test_program/picolua/lua/handler.lua.h
 cd ./test_program
 mkdir build
 rm -rf build/*
