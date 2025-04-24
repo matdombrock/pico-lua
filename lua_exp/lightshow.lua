@@ -1,14 +1,15 @@
 --
--- This is an example of an end user script
+-- This is the defualt lua script that will run when nothing else is provided by the user
+-- This will be modifed on a per-app basis
 --
 
 local function blink_loop()
 	for i = 1, 100 do
 		print(i)
 		pico.led(true)
-		tools.wait(i)
+		pico.wait(i)
 		pico.led(false)
-		tools.wait(i)
+		pico.wait(i)
 	end
 end
 
@@ -17,9 +18,9 @@ local function blink_loop_fib()
 		local fib = tools.fibonacci(i)
 		print(fib)
 		pico.led(true)
-		tools.wait(fib * 10)
+		pico.wait(fib * 10)
 		pico.led(false)
-		tools.wait(fib * 10)
+		pico.wait(fib * 10)
 	end
 end
 
@@ -52,7 +53,7 @@ local function print_sin()
 		print(str)
 		pico.led(is_on)
 		is_on = not is_on
-		tools.wait(50)
+		pico.wait(50)
 	end
 end
 
@@ -60,12 +61,10 @@ local function startup()
 	print("Hello from Lua!")
 	local test = app.set_state(42069) -- Call the custom app function
 	print("test " .. test)
-	local flash_used, flash_free, flash_total = pico.flash_info()
+	local flash_used = pico.flash_used()
 	print("Flash used: " .. flash_used .. " bytes")
-	print("Flash free: " .. flash_free .. " bytes")
-	print("Flash size: " .. flash_total .. " bytes")
 	print("Waiting 2 seconds...")
-	tools.wait(2000)
+	pico.wait(2000)
 end
 
 function Main_loop(tick)
@@ -82,7 +81,7 @@ function Main_loop(tick)
 	print("System time: " .. time)
 
 	print("Waiting 2 seconds...")
-	tools.wait(2000)
+	pico.wait(2000)
 
 	print("== Blink Loop ==")
 	blink_loop()
@@ -97,7 +96,7 @@ function Main_loop(tick)
 	print("System time: " .. time)
 
 	print("Waiting 1 second...")
-	tools.wait(1000)
+	pico.wait(1000)
 
 	if tick > 99 then
 		print("Exiting main loop after 100 ticks")

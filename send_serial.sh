@@ -55,12 +55,23 @@ fi
 # Configure serial port
 stty -F "$DEVICE" "$BAUD_RATE" cs8 -cstopb -parenb raw
 
+# Start listening to serial output in the background
+cat "$DEVICE" &
+LISTENER_PID=$!
+
 # Send file to serial port
 if ! cat "$FILENAME" >"$DEVICE"; then
   echo "Error: Failed to send file to the device."
+  kill "$LISTENER_PID" 2>/dev/null
   exit 1
 fi
 
-echo "{{{END}}}" >>$DEVICE
+# Signal end of file and flush
+echo "{{{END}}}" >>"$DEVICE"
 echo -e "\n" >"$DEVICE"
 echo "File '$FILENAME' successfully sent to device '$DEVICE' at baud rate $BAUD_RATE."
+
+# Wait for user to terminate the script
+echo "Listening to serial output. Press Ctrl+C to stop."
+trap "kill $LISTENER_PID 2>/dev/null" EXIT
+wait

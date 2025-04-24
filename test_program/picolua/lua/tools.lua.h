@@ -1,7 +1,10 @@
 const char *pl_script_tools = "\
 --\n\
 -- Define a custom library of helper functions that is automatically made available to the main lua script\n\
+-- This file provides an easy way for apps to define a custom set of lua tools that are specific to that app\n\
+-- This file should be changed to fit the needs of the project\n\
 --\n\
+\n\
 tools = {}\n\
 -- Return a value at the nth position of the fibonacci sequence\n\
 tools.fibonacci = function(n)\n\
@@ -14,20 +17,5 @@ end\n\
 \n\
 tools.sin_norm = function(x)\n\
 	return 1 + math.sin(x) * 0.5\n\
-end\n\
-\n\
-tools.wait = function(ms)\n\
-	ms = ms * 1000 -- clock is in microseconds\n\
-	local start = pico.clock()\n\
-	while pico.clock() - start < ms do\n\
-		coroutine.yield() -- Pauses the coroutine, allowing other coroutines or the main program to run.\n\
-	end\n\
-end\n\
-\n\
-tools.micro_wait = function(ms)\n\
-	local start = pico.clock()\n\
-	while pico.clock() - start < ms do\n\
-		coroutine.yield() -- Pauses the coroutine, allowing other coroutines or the main program to run.\n\
-	end\n\
 end\n\
 ";

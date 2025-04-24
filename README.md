@@ -1,21 +1,24 @@
-# PICO LUA
+# PICOLUA
 
-Run a Lua interpreter on an RP2350 Pico board.
+A library that allows for running a Lua interpreter in a C program targeting the pico-sdk (RP2350). 
 
-This is a way to run a Lua *interpreter* not a way to write entire embedded applications in Lua (see [MicroLua](https://github.com/MicroLua/MicroLua) for that).
+This is a way to run a Lua *interpreter* from within your C program. 
 
-The core application logic is still written in C / C++.
+This is not a way to write embedded applications fully in Lua (see [MicroLua](https://github.com/MicroLua/MicroLua) for that).
 
-## How this works
+## Lua Patching
 
 This works by downloading the Lua source code and modifying it to work with the Pico SDK.
 
-The main file being replaced is loslib.c which is the Lua OS library.
+The main file being replaced is `loslib.c` which contains the Lua OS library.
 
 See `patch_lua.sh` and `./lua_patches` for more info.
 
-## Use
+The patched Lua build can be found in `./lib/lua` after running `./patch_lua.sh`.
 
+## Setup
+
+Before you can build the example code, you need to run a few setup scripts.
 ```bash
 # Install deps (Fedora only)
 # If you have built pico software before, you can likely skip this step
@@ -33,7 +36,11 @@ See `patch_lua.sh` and `./lua_patches` for more info.
 # Get and install the picotool binary 
 # This is NOT needed if you have it installed and in your path)
 ./get_picotool.sh
+```
 
+## Building the example code
+
+```bash
 # Build the example code 
 ./build.sh
 
@@ -41,26 +48,4 @@ See `patch_lua.sh` and `./lua_patches` for more info.
 ./flash.sh # Or however you normally flash
 ```
 
-## Scripting
 
-Edit the script at `./lua_src_usr/default.lua`.
-
-This will be automatically built and included into the compiled C code. (see `convert_lua.sh`)
-
-The Lua code in `./lua_src_sys/tools.lua` will be provided to all user scripts under the `tools` object.
-
-The main `./lua_src_usr/script.lua` should define a `Main_loop(ticks)` function. This will be called periodically by the Lua code in `./lua_src_sys/handler.lua` and automatically supports async operations using Lua coroutines.
-
-See the existing script for examples of Lua API usage.
-
-### Serial Load Mode
-
-Scripts can be loaded at runtime if `SERIAL_LOAD_MODE` is enabled. Use the `./send_serial.sh <script.lua>` script for this.
-
-There are some example scripts in the `./lua_src_exp` directory.
-
-When `SERIAL_LOAD_MODE` is enabled the device will boot into load mode. The LED on GPIO 0 will light up to confirm this.
-
-End your script by sending a line containing only `{{{END}}}`.
-
-Once a script has been sent the LED will blink quickly a few times and then start running the Lua code.
