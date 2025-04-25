@@ -246,6 +246,11 @@ int pl_init(const struct luaL_Reg app_lib[], int load_serial) {
     return 1;
   }
 
+  // Push the collectgarbage function onto the stack
+  // lua_getglobal(L, "collectgarbage");
+  // Push the first argument "collect" to the collectgarbage function
+  // lua_pushstring(L, "stop");
+  
   int result_pico = luaL_dostring(L, pl_script_pico);
   if (result_pico != LUA_OK) {
     printf("Lua pico error: %s\n", lua_tostring(L, -1));
@@ -277,11 +282,11 @@ int pl_init(const struct luaL_Reg app_lib[], int load_serial) {
     lua_pop(L, 1); // Remove traceback from stack
   }
   else {
-    printf("Loaded lua system ok\n");
+    // printf("Loaded lua system ok\n");
   }
   // Clean up Lua
   lua_close(L);
 
   printf("\n=== Lua script execution complete ===\n");
-  printf("Entering normal LED blink loop...\n"); 
+  return 0;
 }

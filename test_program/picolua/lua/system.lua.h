@@ -17,8 +17,7 @@ local function main_loop()\n\
 	while true do\n\
 		-- Trigger an app specific event before each loop if it exists\n\
 		if app.before_main_loop then\n\
-			-- app.before_main_loop(tick)\n\
-			print(\"before main loop\")\n\
+			app.before_main_loop(tick)\n\
 		end\n\
 		local tstart = pico.clock()\n\
 		user_main_loop(tick) -- Call the user-defined main loop function\n\

@@ -1,6 +1,7 @@
 --
 -- This is a collection of helper functions for the Pico Lua environment.
--- These extend the functions exposed in the C code
+-- These functions extend the `pico` library defined in the C code
+-- This is part of the core picolua system and likely will remain unchanged between apps
 --
 
 if not pico then

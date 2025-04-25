@@ -10,93 +10,84 @@
 #include <stdlib.h>
 
 // Include Lua headers for C
-// #include "../lib/lua/lua-5.4.6/include/lua.h"
-// #include "../lib/lua/lua-5.4.6/include/lauxlib.h"
-// #include "../lib/lua/lua-5.4.6/include/lualib.h"
+// #include "../../lib/lua/lua-5.4.6/include/lua.h"
+// #include "../../lib/lua/lua-5.4.6/include/lauxlib.h"
+// #include "../../lib/lua/lua-5.4.6/include/lualib.h"
 
 // Use the .hpp file for C++
 #include "../../lib/lua/lua-5.4.6/include/lua.hpp"
 
+// System tools for pico end
+#include "lua/pico.lua.h"
 // Local the custom lua library file
 #include "lua/tools.lua.h"
 // Load our default main user script that was generated with the `convert_lua.sh` script
 #include "lua/default.lua.h"
 // Load the hander
-#include "lua/handler.lua.h"
-
-//#define SERIAL_CLI_MODE
-#define SERIAL_LOAD_MODE
+#include "lua/system.lua.h"
 
 // Right now we just use GPIO 0 for a test
-#define LED_PIN 0
-// Define the size of the flash memory
-#define FLASH_SIZE_BYTES (4 * 1024 * 1024) // 4MB of flash memory by default on pico2 dev boards
-                                           // Define the start of the program in flash memory
-#define FLASH_BASE_ADDR XIP_BASE
+#define DEFAULT_LED 0
+                       
+//
+// UTILITY FUNCTIONS
+//
 
-// (total_flash | used_flash | free_flash)
-size_t pl_check_flash_storage(int mode) {
-  // Calculate total flash size
-  size_t total_flash = FLASH_SIZE_BYTES;
-
+// Returns the size of the flash memory used by the program
+size_t pl_flash_info() {
   // Get the address of the end of the program
   extern uint8_t __flash_binary_end; // Provided by the linker
-  size_t used_flash = (size_t)(&__flash_binary_end) - FLASH_BASE_ADDR;
-
-  // Calculate free flash memory
-  size_t free_flash = total_flash - used_flash;
-
-  switch (mode) {
-    case 0:
-      return total_flash;
-    case 1:
-      return used_flash;
-    case 2:
-      return free_flash;
-    default:
-      printf("Invalid mode. Use 0 for total, 1 for used, or 2 for free.\n");
-      return 0;
-  }
+  size_t used_flash = (size_t)(&__flash_binary_end) - XIP_BASE;
+  return used_flash;
 }
 
 // Initialize the GPIO for the LED
-void pl_pico_led_init(void) {
-  gpio_init(LED_PIN);
-  gpio_set_dir(LED_PIN, GPIO_OUT);
+void pl_pico_gpio_init(int pin) {
+  gpio_init(pin);
+  gpio_set_dir(pin, GPIO_OUT);
 }
 
-// Turn the LED on or off
-void pl_pico_set_led(bool led_on) {
-  gpio_put(LED_PIN, led_on);
+// Turn the GPIO on or off
+void pl_pico_gpio_set(int pin, bool state) {
+  gpio_put(pin, state);
 }
 
-// Lua function to control the LED
-static int pl_lua_set_led(lua_State *L) {
-  int on = lua_toboolean(L, 1);
-  pl_pico_set_led(on);
+//
+// LUA BINDS  
+//
+
+static int pl_lua_gpio_init(lua_State *L) {
+  int pin = luaL_checkinteger(L, 1);
+  pl_pico_gpio_init(pin);
+  return 0;
+}
+
+// Lua function to control the GPIO
+static int pl_lua_gpio_set(lua_State *L) {
+  int pin = luaL_checkinteger(L, 1);
+  int state = lua_toboolean(L, 2);
+  pl_pico_gpio_set(pin, state);
   return 0;
 }
 
 // Lua function to sleep for milliseconds
+// Sleeps on the main thread
+// Prefer using `pico.wait()` defined in the lua code which is non-blocking
 static int pl_lua_sleep_ms(lua_State *L) {
   int ms = luaL_checkinteger(L, 1);
   sleep_ms(ms);
   return 0;
 }
 
-// Lua function to check the flash stats
-// Returns used, free, total
-static int pl_lua_check_flash(lua_State *L) { 
-  size_t used = pl_check_flash_storage(1);
+// Returns the amount of flash used by the program
+static int pl_lua_flash_used(lua_State *L) {
+  size_t used = pl_flash_info();
   lua_pushinteger(L, used);
-  size_t free = pl_check_flash_storage(2);
-  lua_pushinteger(L, free);
-  size_t total = pl_check_flash_storage(0);
-  lua_pushinteger(L, total);
-  return 3;
+  return 1;
 }
 
 // Get the current time in microseconds at the start
+// Uses the pico-sdk
 static int pl_lua_clock(lua_State *L) {
   uint64_t time = time_us_64();
   lua_pushinteger(L, time);
@@ -106,9 +97,10 @@ static int pl_lua_clock(lua_State *L) {
 
 // Register our Pico-specific functions to Lua
 static const struct luaL_Reg pl_pico_lib[] = {
-  {"led", pl_lua_set_led},
+  {"gpio_init", pl_lua_gpio_init},
+  {"gpio_set", pl_lua_gpio_set},
   {"sleep_ms", pl_lua_sleep_ms},
-  {"flash_info", pl_lua_check_flash},
+  {"flash_used", pl_lua_flash_used},
   {"clock", pl_lua_clock},
   {NULL, NULL}
 };
@@ -211,7 +203,7 @@ char* pl_serial_load_lua() {
 }
 
 char *pl_serial_load_lua_hander() {
-  pl_pico_set_led(1);
+  pl_pico_gpio_set(DEFAULT_LED, 1);
   printf("Starting Lua loading...\n");
   char *lua_script_serial = pl_serial_load_lua();
   printf("Lua loading complete.\n"); 
@@ -225,28 +217,26 @@ char *pl_serial_load_lua_hander() {
   }
   // Blink to confirm
   for (int i = 0; i < 8; i++) {
-    pl_pico_set_led(0);
+    pl_pico_gpio_set(DEFAULT_LED, 0);
     sleep_ms(80);
-    pl_pico_set_led(1);
+    pl_pico_gpio_set(DEFAULT_LED, 1);
     sleep_ms(80);
   }
   return lua_script_serial;
 }
 
-int pl_init(const struct luaL_Reg app_lib[]) {
+int pl_init(const struct luaL_Reg app_lib[], int load_serial) {
   // Initialize standard I/O
   stdio_init_all();
 
   // Initialize the LED
-  pl_pico_led_init();
+  pl_pico_gpio_init(DEFAULT_LED);
 
   // Ensure we can see the output
   sleep_ms(2000);
 
   char *lua_script_serial = NULL;
-#ifdef SERIAL_LOAD_MODE
-  lua_script_serial = pl_serial_load_lua_hander();
-#endif
+  if (load_serial) lua_script_serial = pl_serial_load_lua_hander();
   printf("\n\n=== Starting Lua on Pico RP2350 ===\n\n");
 
   // Initialize Lua
@@ -256,26 +246,39 @@ int pl_init(const struct luaL_Reg app_lib[]) {
     return 1;
   }
 
+  int result_pico = luaL_dostring(L, pl_script_pico);
+  if (result_pico != LUA_OK) {
+    printf("Lua pico error: %s\n", lua_tostring(L, -1));
+    lua_pop(L, 1); // Remove traceback from stack
+  }
+  else {
+    printf("Loaded lua pico extensions ok\n");
+  }
   int result_tools = luaL_dostring(L, pl_script_tools);
-  if (result_tools) {
-    luaL_traceback(L, L, lua_tostring(L, -1), 1);
+  if (result_tools != LUA_OK) {
     printf("Lua tools error: %s\n", lua_tostring(L, -1));
     lua_pop(L, 1); // Remove traceback from stack
   }
+  else {
+    printf("Loaded lua tools ok\n");
+  }
   const char *user_script_target = lua_script_serial != NULL ? lua_script_serial : pl_script_default;
   int result_script = luaL_dostring(L, user_script_target);
-  if (result_script) {
-    luaL_traceback(L, L, lua_tostring(L, -1), 1);
+  if (result_script != LUA_OK) {
     printf("Lua user script error: %s\n", lua_tostring(L, -1));
     lua_pop(L, 1); // Remove traceback from stack
   }
-  int result_handler = luaL_dostring(L, pl_script_handler);
-  if (result_handler) {
-    luaL_traceback(L, L, lua_tostring(L, -1), 1);
-    printf("Lua handler error: %s\n", lua_tostring(L, -1));
+  else {
+    printf("Loaded lua user script ok\n");
+  }
+  int result_system = luaL_dostring(L, pl_script_system);
+  if (result_system != LUA_OK) {
+    printf("Lua system error: %s\n", lua_tostring(L, -1));
     lua_pop(L, 1); // Remove traceback from stack
   }
-
+  else {
+    printf("Loaded lua system ok\n");
+  }
   // Clean up Lua
   lua_close(L);
 

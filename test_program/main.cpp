@@ -48,10 +48,14 @@ int main() {
   pl_init(app_lib, true); // Load from serial 
 
   // Continue with regular C code when done with the Lua
+  printf("Continuing with C code...\n");
   while (true) {
     pl_pico_gpio_set(0, true);
     sleep_ms(200);
     pl_pico_gpio_set(0, false);
+    uint64_t stime = time_us_64();
     sleep_ms(200);
+    uint64_t ttime = stime - time_us_64();
+    printf("C code running, time: %d\n", ttime);
   }
 }

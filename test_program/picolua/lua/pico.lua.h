@@ -1,7 +1,8 @@
 const char *pl_script_pico = "\
 --\n\
 -- This is a collection of helper functions for the Pico Lua environment.\n\
--- These extend the functions exposed in the C code\n\
+-- These functions extend the `pico` library defined in the C code\n\
+-- This is part of the core picolua system and likely will remain unchanged between apps\n\
 --\n\
 \n\
 if not pico then\n\
