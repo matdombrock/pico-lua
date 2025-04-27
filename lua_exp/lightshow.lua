@@ -1,3 +1,5 @@
+-- THIS DOESNT WORK
+
 --
 -- This is the defualt lua script that will run when nothing else is provided by the user
 -- This will be modifed on a per-app basis

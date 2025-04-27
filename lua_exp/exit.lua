@@ -1,3 +1,3 @@
-function Main_loop()
+function Main_loop(tick, delta)
 	os.exit()
 end
