@@ -13,16 +13,18 @@ local function main_loop()
 	print("======= STARTING MAIN LOOP =======")
 	local user_main_loop = Main_loop or noop
 	local tick = 1
+	local last_start = pico.clock()
 	while true do
 		-- Trigger an app specific event before each loop if it exists
 		if app.before_main_loop then
 			app.before_main_loop(tick)
 		end
 		local tstart = pico.clock()
-		user_main_loop(tick) -- Call the user-defined main loop function
+		local delta = tstart - last_start
+		last_start = tstart
+		user_main_loop(tick, delta) -- Call the user-defined main loop function
 		local runtime = pico.clock() - tstart
 		tick = tick + 1
-		pico.wait(1) -- Wait for 1ms before the next iteration
 		-- Trigger an app specific event after each loop if it exists
 		if app.after_main_loop then
 			app.after_main_loop(tick, runtime)

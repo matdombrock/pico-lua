@@ -3,9 +3,10 @@
 -- This will be modifed on a per-app basis
 --
 
-function Main_loop(tick)
+function Main_loop(tick, delta)
 	print("=== Main Loop ===")
 	print("Tick number: " .. tick)
+	print("Delta time: " .. delta .. " microseconds")
 	if tick > 99 then
 		print("Exiting main loop after 100 ticks")
 		os.exit()

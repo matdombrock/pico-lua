@@ -4,9 +4,10 @@ const char *pl_script_default = "\
 -- This will be modifed on a per-app basis\n\
 --\n\
 \n\
-function Main_loop(tick)\n\
+function Main_loop(tick, delta)\n\
 	print(\"=== Main Loop ===\")\n\
 	print(\"Tick number: \" .. tick)\n\
+	print(\"Delta time: \" .. delta .. \" microseconds\")\n\
 	if tick > 99 then\n\
 		print(\"Exiting main loop after 100 ticks\")\n\
 		os.exit()\n\
