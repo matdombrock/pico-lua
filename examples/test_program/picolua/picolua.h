@@ -144,7 +144,7 @@ char* pl_serial_read_ln() {
   }
 
   // Allocate memory for the resulting string
-  char *result = (char *)malloc(strlendifferntly(buffer) + 1);
+  char *result = (char *)malloc(strlen(buffer) + 1);
   if (result == NULL) {
     fprintf(stderr, "Memory allocation failed\n");
     exit(1);
