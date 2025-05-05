@@ -57,7 +57,11 @@ target_link_libraries(<your project>
 )
 ```
 
-## Include the `picolua` header
+Note: You will also need to run the `./picolua/picolua_convert.sh` script before build to convert the Lua files to C header files.
+
+## The C/C++ Code
+
+### Include the `picolua` header
 
 ```c
 // main.c
@@ -65,8 +69,6 @@ target_link_libraries(<your project>
 ```
 
 You do not need to include the Lua headers in your code. The `picolua` header will include them for you.
-
-## The C/C++ Code
 
 ### Write some C code to be called by Lua
 
@@ -215,6 +217,19 @@ function Main_loop(tick, delta)
   print("Main loop tick: " .. x)
 end
 ```
+
+## Lua Life Cycle
+
+The `Main_loop` function will be called every tick and the `tick` and `delta` values will be passed to it.
+
+The life cycle is as follows:
+
+1) Initialize C code
+2) Initialize Lua interpreter
+3) Picolua calls the `lua_before_main_loop(tick)` C function
+4) Picolua calls the `Main_loop(tick, delta)` Lua function
+5) Picolua calls the `lua_after_main_loop(tick, runtime)` C function
+6) Go to step 3
 
 ## Loading Scripts via Serial
 
