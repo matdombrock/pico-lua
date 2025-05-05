@@ -2,7 +2,7 @@
 set -e
 source env.src
 rm -rf ./lib/picotool
-git clone https://github.com/raspberrypi/picotool.git ./lib/picotool
+git clone https://github.com/raspberrypi/picotool.git ./../../lib/picotool
 cd ./lib/picotool
 mkdir build
 cd build
