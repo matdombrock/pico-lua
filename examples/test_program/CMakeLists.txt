@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD 17)
 pico_sdk_init()
 
 # Set path to Lua library and include directories
-set(LUA_DIR "${CMAKE_SOURCE_DIR}/../lib/lua/lua-5.4.6/")
+set(LUA_DIR "${CMAKE_SOURCE_DIR}/../../lib/lua/lua-5.4.6/")
 set(LUA_INCLUDE_DIR "${LUA_DIR}/include")
 set(LUA_LIBRARY_DIR "${LUA_DIR}")
 

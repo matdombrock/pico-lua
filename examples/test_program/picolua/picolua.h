@@ -10,21 +10,21 @@
 #include <stdlib.h>
 
 // Include Lua headers for C
-// #include "../../lib/lua/lua-5.4.6/include/lua.h"
-// #include "../../lib/lua/lua-5.4.6/include/lauxlib.h"
-// #include "../../lib/lua/lua-5.4.6/include/lualib.h"
+// #include "../../../lib/lua/lua-5.4.6/include/lua.h"
+// #include "../../../lib/lua/lua-5.4.6/include/lauxlib.h"
+// #include "../../../lib/lua/lua-5.4.6/include/lualib.h"
 
 // Use the .hpp file for C++
-#include "../../lib/lua/lua-5.4.6/include/lua.hpp"
+#include "../../../lib/lua/lua-5.4.6/include/lua.hpp"
 
 // System tools for pico end
-#include "lua/pico.lua.h"
+#include "lua_h/pico.lua.h"
 // Local the custom lua library file
-#include "lua/tools.lua.h"
+#include "lua_h/tools.lua.h"
 // Load our default main user script that was generated with the `convert_lua.sh` script
-#include "lua/default.lua.h"
+#include "lua_h/default.lua.h"
 // Load the hander
-#include "lua/system.lua.h"
+#include "lua_h/system.lua.h"
 
 // Right now we just use GPIO 0 for a test
 #define DEFAULT_LED 0
@@ -277,11 +277,11 @@ int pl_init(const struct luaL_Reg app_lib[], int load_serial) {
     lua_pop(L, 1); // Remove traceback from stack
   }
   else {
-    printf("Loaded lua system ok\n");
+    // printf("Loaded lua system ok\n");
   }
   // Clean up Lua
   lua_close(L);
 
   printf("\n=== Lua script execution complete ===\n");
-  printf("Entering normal LED blink loop...\n"); 
+  return 0;
 }

@@ -19,6 +19,7 @@ static int lua_set_state(lua_State *L) {
 
 // This function will be called before the main loop
 // You can add any init or cleanup code here
+// This is optional
 static int lua_before_main_loop(lua_State *L) { 
   int tick = luaL_checkinteger(L, 1);
   printf("Lua before main loop (tick: %d)\n", tick);
@@ -27,6 +28,7 @@ static int lua_before_main_loop(lua_State *L) {
 
 // This function will be called after the main loop
 // You can add any cleanup or finalization code here
+// This is optional
 static int lua_after_main_loop(lua_State *L) { 
   int tick = luaL_checkinteger(L, 1);
   int runtime = luaL_checkinteger(L, 2);
@@ -36,7 +38,7 @@ static int lua_after_main_loop(lua_State *L) {
 }
 
 int main() {
-  // Set up some custom lua bindsings for our app
+  // Set up some custom lua bindings for our app
   // These will be available in lua under `app.*`
   static const struct luaL_Reg app_lib[] = {
     {"set_state", lua_set_state}, 
