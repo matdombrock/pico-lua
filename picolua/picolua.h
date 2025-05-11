@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * Lua test for Raspberry Pi Pico RP2350
  */

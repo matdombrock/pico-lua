@@ -36,7 +36,7 @@ Add the following to your `CMakeLists.txt` file. Be sure to replace `<your_proje
 # CMakeLists.txt
 
 # Set path to Lua library and include directories
-set(LUA_DIR "${CMAKE_SOURCE_DIR}/../../lib/lua/lua-5.4.6/")
+set(LUA_DIR "${CMAKE_SOURCE_DIR}<path_to_lua_lib>)
 set(LUA_INCLUDE_DIR "${LUA_DIR}/include")
 set(LUA_LIBRARY_DIR "${LUA_DIR}")
 
@@ -56,6 +56,11 @@ target_link_libraries(<your project>
     liblua.a
 )
 ```
+
+Replace:
+
+- `<path_to_lua>` with something like `./lib/lua/lua-5.4.6/`
+- `<your_project>` with the name of your project.
 
 Note: You will also need to run the `./picolua/picolua_convert.sh` script before build to convert the Lua files to C header files.
 
